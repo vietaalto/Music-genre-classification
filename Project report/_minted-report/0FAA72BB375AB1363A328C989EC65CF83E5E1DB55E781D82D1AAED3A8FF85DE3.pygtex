@@ -1,0 +1,48 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{def} \PYG{n+nf}{xgbcv}\PYG{p}{(}\PYG{n}{learning\PYGZus{}rate}\PYG{p}{,} \PYG{n}{n\PYGZus{}estimators}\PYG{p}{,} \PYG{n}{gamma}\PYG{p}{,} \PYG{n}{max\PYGZus{}depth}\PYG{p}{,} \PYG{n}{min\PYGZus{}child\PYGZus{}weight}\PYG{p}{,} \PYG{n}{max\PYGZus{}delta\PYGZus{}step}\PYG{p}{,} \PYG{n}{subsample}\PYG{p}{,} \PYG{n}{colsample\PYGZus{}bytree}\PYG{p}{,} \PYG{n}{reg\PYGZus{}lambda}\PYG{p}{,} \PYG{n}{reg\PYGZus{}alpha}\PYG{p}{):}
+	\PYG{n}{xgb\PYGZus{}model} \PYG{o}{=}  \PYG{n}{xgb}\PYG{o}{.}\PYG{n}{XGBClassifier}\PYG{p}{(}
+		\PYG{n}{objective} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}multi:softmax\PYGZsq{}}\PYG{p}{,}
+		\PYG{n}{learning\PYGZus{}rate}\PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{learning\PYGZus{}rate}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{l+m+mi}{0}\PYG{p}{),}
+		\PYG{n}{n\PYGZus{}estimators} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{n\PYGZus{}estimators}\PYG{p}{),}
+		\PYG{n}{gamma}\PYG{o}{=}\PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{gamma}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+		\PYG{n}{max\PYGZus{}depth} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{max\PYGZus{}depth}\PYG{p}{),}
+		\PYG{n}{min\PYGZus{}child\PYGZus{}weight} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{min\PYGZus{}child\PYGZus{}weight}\PYG{p}{),}
+		\PYG{n}{max\PYGZus{}delta\PYGZus{}step}\PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{max\PYGZus{}delta\PYGZus{}step}\PYG{p}{),}
+		\PYG{n}{subsample} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{subsample}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{l+m+mi}{0}\PYG{p}{),}
+\PYG{n}{colsample\PYGZus{}bytree} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{colsample\PYGZus{}bytree}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{l+m+mi}{0}\PYG{p}{),}
+\PYG{n}{reg\PYGZus{}lambda} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{reg\PYGZus{}lambda}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+\PYG{n}{reg\PYGZus{}alpha} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{reg\PYGZus{}alpha}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+\PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{12345}\PYG{p}{)}
+\PYG{n}{val} \PYG{o}{=} \PYG{n}{cross\PYGZus{}val\PYGZus{}score}\PYG{p}{(}\PYG{n}{xgb\PYGZus{}model}\PYG{p}{,}
+\PYG{n}{train\PYGZus{}data}\PYG{p}{,} \PYG{n}{train\PYGZus{}labels}\PYG{p}{,} \PYG{n}{scoring}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}accuracy\PYGZsq{}}\PYG{p}{,}
+\PYG{n}{cv}\PYG{o}{=}\PYG{n}{StratifiedKFold}\PYG{p}{(}\PYG{n}{n\PYGZus{}splits}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{12345}\PYG{p}{,} \PYG{n}{shuffle}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{p}{)}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{()}
+\PYG{k}{return} \PYG{n}{val}
+\PYG{n}{gp\PYGZus{}params} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}alpha\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mf}{1e\PYGZhy{}5}\PYG{p}{\PYGZcb{}}
+\PYG{n}{xgbBO} \PYG{o}{=} \PYG{n}{BayesianOptimization}\PYG{p}{(}\PYG{n}{xgbcv}\PYG{p}{,}
+\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}learning\PYGZus{}rate\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}n\PYGZus{}estimators\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}gamma\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}max\PYGZus{}depth\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}min\PYGZus{}child\PYGZus{}weight\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}max\PYGZus{}delta\PYGZus{}step\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}subsample\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.3}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}colsample\PYGZus{}bytree\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}reg\PYGZus{}lambda\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{),}
+\PYG{l+s+s1}{\PYGZsq{}reg\PYGZus{}alpha\PYGZsq{}}\PYG{p}{:} \PYG{p}{(}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{)\PYGZcb{}}
+\PYG{p}{)}
+\PYG{n}{xgbBO}\PYG{o}{.}\PYG{n}{explore}\PYG{p}{(\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}learning\PYGZus{}rate\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{0.1}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}n\PYGZus{}estimators\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}gamma\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{0.1}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}max\PYGZus{}depth\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}min\PYGZus{}child\PYGZus{}weight\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}max\PYGZus{}delta\PYGZus{}step\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}subsample\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.1}\PYG{p}{,} \PYG{l+m+mf}{0.45}\PYG{p}{,} \PYG{l+m+mf}{0.9}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}colsample\PYGZus{}bytree\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{l+m+mf}{0.7}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}reg\PYGZus{}lambda\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{0.1}\PYG{p}{],}
+\PYG{l+s+s1}{\PYGZsq{}reg\PYGZus{}alpha\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{0.1}\PYG{p}{]\PYGZcb{})}
+\PYG{n}{xgbBO}\PYG{o}{.}\PYG{n}{maximize}\PYG{p}{(}\PYG{n}{n\PYGZus{}iter}\PYG{o}{=}\PYG{l+m+mi}{40}\PYG{p}{,} \PYG{o}{**}\PYG{n}{gp\PYGZus{}params}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}} \PYG{o}{*} \PYG{l+m+mi}{53}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Final Results\PYGZsq{}}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}XGB: }\PYG{l+s+si}{\PYGZpc{}f}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{xgbBO}\PYG{o}{.}\PYG{n}{res}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}max\PYGZsq{}}\PYG{p}{][}\PYG{l+s+s1}{\PYGZsq{}max\PYGZus{}val\PYGZsq{}}\PYG{p}{])}
+\end{Verbatim}

@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{objective} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}reg:logistic\PYGZsq{}}\PYG{p}{,}
+\PYG{n}{learning\PYGZus{}rate}\PYG{o}{=} \PYG{l+m+mf}{0.1}\PYG{p}{,}
+\PYG{n}{n\PYGZus{}estimators} \PYG{o}{=} \PYG{l+m+mi}{50}\PYG{p}{,}
+\PYG{n}{gamma}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,}
+\PYG{n}{max\PYGZus{}depth} \PYG{o}{=} \PYG{l+m+mi}{12}\PYG{p}{,}
+\PYG{n}{min\PYGZus{}child\PYGZus{}weight} \PYG{o}{=} \PYG{l+m+mi}{20}\PYG{p}{,}
+\PYG{n}{max\PYGZus{}delta\PYGZus{}step}\PYG{o}{=} \PYG{l+m+mi}{50}\PYG{p}{,}
+\PYG{n}{subsample} \PYG{o}{=} \PYG{l+m+mf}{0.9}\PYG{p}{,}
+\PYG{n}{colsample\PYGZus{}bytree} \PYG{o}{=} \PYG{l+m+mf}{0.7}\PYG{p}{,}
+\PYG{n}{reg\PYGZus{}lambda} \PYG{o}{=} \PYG{l+m+mf}{0.1}\PYG{p}{,}
+\PYG{n}{reg\PYGZus{}alpha} \PYG{o}{=} \PYG{l+m+mf}{0.1}\PYG{p}{,}
+\end{Verbatim}
